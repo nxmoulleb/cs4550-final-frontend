@@ -13,7 +13,7 @@ function Register() {
   const register = async () => {
     try { 
       console.log('credentials:', credentials);
-      const response = await client.register(credentials);
+      await client.register(credentials);
       setMessage(<h1>Congrats you registered</h1>)
       navigate("/account")
     } catch (e) {

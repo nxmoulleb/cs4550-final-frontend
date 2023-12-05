@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router";
 import SignIn from "./project/signin";
 import Register from "./project/register";
 import Account from "./project/account";
+import AccountEdit from "./project/accountEdit";
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/account/:id" element={<Account />} />
+        <Route path="/accountEdit" element={<AccountEdit />} />
       </Routes>
     </HashRouter>
   );
