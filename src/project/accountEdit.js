@@ -1,4 +1,4 @@
-import * as client from "./users/userClient";
+import * as userClient from "./users/userClient";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,7 +7,7 @@ function AccountEdit() {
   const [credentials, setCredentials] = useState(account);
   const navigate = useNavigate();
   const fetchAccount = async () => {
-    const account = await client.account();
+    const account = await userClient.account();
     setAccount(account);
     setCredentials(account);
   };
@@ -17,7 +17,7 @@ function AccountEdit() {
   }, []);
 
   const update = async () => {
-    await client.update(credentials);
+    await userClient.updateUser(credentials);
   };
 
   if (account && credentials) {

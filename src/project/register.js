@@ -1,4 +1,5 @@
-import * as client from "./users/userClient";
+import * as userClient from "./users/userClient";
+import * as collectionsClient from "./collections/collectionsClient";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,8 +13,10 @@ function Register() {
   const navigate = useNavigate();
   const register = async () => {
     try { 
-      console.log('credentials:', credentials);
-      await client.register(credentials);
+      await userClient.register(credentials);
+      const account = await userClient.account();
+      console.log("accountId:", account);
+      await collectionsClient.createCollection(account._id, account.username);
       setMessage(<h1>Congrats you registered</h1>)
       navigate("/account")
     } catch (e) {
