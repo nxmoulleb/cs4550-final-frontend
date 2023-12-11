@@ -14,19 +14,26 @@ function Details() {
       const collection = await collectionsClient.getCollectionByUserId(
         account._id
       );
-      console.log("collection:", collection);
-      collectionsClient.updateCollectionItems(account._id, {
+      const data = {
         objectId: String(id),
         objectName: object.title,
         artistName: object.artistDisplayName,
+      };
+      let alreadyInCollection = false;
+      collection.itemData.forEach((element) => {
+        if (element.objectId === String(id)) {
+          alreadyInCollection = true;
+        }
       });
+      if ((collection.itemData && !alreadyInCollection) || !collection.itemData) {
+        collectionsClient.updateCollectionItems(account._id, data);
+      }
     }
   };
 
   useEffect(() => {
     async function updateAccount() {
       const acc = await userClient.account();
-      console.log("acc", acc);
       setAccount(acc);
     }
     async function updateObject() {
@@ -37,7 +44,6 @@ function Details() {
     }
     updateAccount();
     updateObject();
-    console.log(object);
   }, []);
 
   return (

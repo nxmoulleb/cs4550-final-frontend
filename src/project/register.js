@@ -15,7 +15,6 @@ function Register() {
     try { 
       await userClient.register(credentials);
       const account = await userClient.account();
-      console.log("accountId:", account);
       await collectionsClient.createCollection(account._id, account.username);
       setMessage(<h1>Congrats you registered</h1>)
       navigate("/account")

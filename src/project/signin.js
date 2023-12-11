@@ -11,8 +11,7 @@ function SignIn() {
   const [message, setMessage] = useState(<></>)
   const signIn = async () => {
     try{
-        const response = await client.signin(credentials);
-        console.log("signin response:", response);
+        await client.signin(credentials);
         setMessage(<h1>Signed in</h1>);
         navigate("/account");
     } catch {

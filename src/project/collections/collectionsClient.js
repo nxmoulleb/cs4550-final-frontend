@@ -22,7 +22,14 @@ export const updateCollection = async (userId, update) => {
   return response.data;
 }
 export const updateCollectionItems = async (userId, itemData) => {
-  console.log('itemData', itemData)
   const response = await request.put(`${USERS_API}/items/${userId}`, itemData);
+  return response.data;
+}
+export const updateCollectionCollaberators = async (ownerId, userData) => {
+  const response = await request.put(`${USERS_API}/collab/${ownerId}`, {userData: userData});
+  return response.data;
+}
+export const deleteItemInCollection = async (userId, itemId) => {
+  const response = await request.delete(`${USERS_API}/items/${userId}/${itemId}`);
   return response.data;
 }

@@ -10,30 +10,6 @@ function Search() {
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
 
-  const searchAPI = async () => {
-    const localSearch = query.replace("-", " ");
-    setSearch(localSearch);
-    setResults([]);
-    setLoading(`Fetching results, please be patient. ${count} found so far`);
-    const result = await axios.get(
-      `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${localSearch}`
-    );
-    let resultData = [];
-
-    let localCount = 0;
-    for (let i = 0; i < result.data.objectIDs.length; i++) {
-      const processed = await getObjectById(result.data.objectIDs[i]);
-      if (processed) {
-        resultData.push(processed);
-        setCount(localCount);
-        localCount += 1;
-      }
-    }
-    setResults(resultData);
-    setLoading(`Done! Found ${localCount} results for \'${localSearch}\'`);
-    setCount(0);
-  };
-
   const getObjectById = async (id) => {
     try {
       const result = await axios.get(
@@ -46,14 +22,37 @@ function Search() {
   };
 
   useEffect(() => {
-    console.log("query:", query);
+    const searchAPI = async () => {
+      const localSearch = query.replace("-", " ");
+      setSearch(localSearch);
+      setResults([]);
+      setLoading(`Fetching results, please be patient. ${count} found so far`);
+      const result = await axios.get(
+        `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${localSearch}`
+      );
+      let resultData = [];
+  
+      let localCount = 0;
+      for (let i = 0; i < result.data.objectIDs.length; i++) {
+        const processed = await getObjectById(result.data.objectIDs[i]);
+        if (processed) {
+          resultData.push(processed);
+          setCount(localCount);
+          localCount += 1;
+        }
+      }
+      setResults(resultData);
+      setLoading(`Done! Found ${localCount} results for \'${localSearch}\'`);
+      setCount(0);
+    };
+
     async function onQueryChange() {
       await searchAPI();
     }
     if (query) {
       onQueryChange();
     }
-  }, [query]);
+  }, [count, query]);
 
   useEffect(() => {
     if (count !== 0) {
@@ -63,7 +62,6 @@ function Search() {
 
   return (
     <div>
-      <label></label>
       <input
         type="text"
         defaultValue={search}
