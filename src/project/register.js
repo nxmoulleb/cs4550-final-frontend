@@ -9,51 +9,72 @@ function Register() {
     password: "",
     email: "",
   });
-  const [message, setMessage] = useState(<></>)
+  const [message, setMessage] = useState(<></>);
   const navigate = useNavigate();
   const register = async () => {
-    try { 
+    try {
       await userClient.register(credentials);
       const account = await userClient.account();
       await collectionsClient.createCollection(account._id, account.username);
-      setMessage(<h1>Congrats you registered</h1>)
-      navigate("/account")
+      setMessage(<h1>Congrats you registered</h1>);
+      navigate("/account");
     } catch (e) {
-      console.log('problem with registering:', e);
-      setMessage(<h1>An account already exists which uses that username or email</h1>)
+      console.log("problem with registering:", e);
+      setMessage(
+        <h1>An account already exists which uses that username or email</h1>
+      );
     }
   };
 
   useEffect(() => {
-    setMessage(message)
+    setMessage(message);
   }, [message]);
 
   return (
-    <div>
-      <h1>Register a New Account</h1>
-      <input
-        value={credentials.username}
-        onChange={(e) =>
-          setCredentials({ ...credentials, username: e.target.value })
-        }
-        placeholder="Username"
-      />
-      <input
-        value={credentials.password}
-        onChange={(e) =>
-          setCredentials({ ...credentials, password: e.target.value })
-        }
-        placeholder="Password"
-      />
-      <input
-        value={credentials.email}
-        onChange={(e) =>
-          setCredentials({ ...credentials, email: e.target.value })
-        }
-        placeholder="Email"
-      />
-      <button onClick={register}>Register</button>
-      {message}
+    <div class="d-flex justify-content-center w-100">
+      <div class="w-50 rounded bg-secondary-subtle p-3">
+        <h1 class="text-center mb-3">Register a New Account</h1>
+        <div class="form-floating mb-3">
+          <input
+            value={credentials.username}
+            onChange={(e) =>
+              setCredentials({ ...credentials, username: e.target.value })
+            }
+            placeholder="Username"
+            id="floatingUsername"
+            class="form-control"
+          />
+          <label for="floatingUsername">Username</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            value={credentials.password}
+            onChange={(e) =>
+              setCredentials({ ...credentials, password: e.target.value })
+            }
+            placeholder="Username"
+            id="floatingUsername"
+            class="form-control"
+          />
+          <label for="floatingUsername">Password</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            value={credentials.email}
+            onChange={(e) =>
+              setCredentials({ ...credentials, email: e.target.value })
+            }
+            placeholder="Username"
+            id="floatingUsername"
+            class="form-control"
+          />
+          <label for="floatingUsername">Email</label>
+        </div>
+        <div class="justify-content-center d-flex align-items-center mb-3">
+          <button class="btn btn-primary" onClick={register}>Register</button>
+        </div>
+        {message}
+      </div>
     </div>
   );
 }

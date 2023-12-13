@@ -6,15 +6,27 @@ export const BASE_API = process.env.REACT_APP_BASE_API_URL;
 export const USERS_API = `${BASE_API}/api/collections`;
 
 export const createCollection = async (userId, username) => {
-  const response = await request.post(`${USERS_API}`, {ownerId: userId, ownerUsername: username});
-  return response.data;
-}
-export const addToCollection = async (userId, collection) => {
-  const response = await request.put(`${USERS_API}/${userId}`, collection);
+  const response = await request.post(`${USERS_API}`, {ownerId: userId, ownerUsername: username, lastUpdated: Date.now()});
   return response.data;
 }
 export const getCollectionByUserId = async (userId) => {
   const response = await request.get(`${USERS_API}/ownerId/${userId}`);
+  return response.data;
+}
+export const findAllCollections = async () => {
+  const response = await request.get(`${USERS_API}`);
+  return response.data;
+};
+export const findRecentCollections = async () => {
+  const response = await request.get(`${USERS_API}/recent`);
+  return response.data;
+}
+export const findReviewerCollections = async (id) => {
+  const response = await request.get(`${USERS_API}/reviewer/${id}`);
+  return response.data;
+}
+export const findObjectInCollections = async (id) => {
+  const response = await request.get(`${USERS_API}/object/${id}`);
   return response.data;
 }
 export const updateCollection = async (userId, update) => {
